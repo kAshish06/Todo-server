@@ -28,6 +28,7 @@ export default class TodosDAO {
 
   static async addTodo(todo) {
     try {
+      console.log(todo);
       return await this.todosCollection.insertOne(todo);
     } catch (e) {
       console.log(

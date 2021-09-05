@@ -1,5 +1,5 @@
 import TodosDAO from "../dao/todos.dao.js";
-
+import { convertBase64MediaToBlob } from "../utils/commonUtils.js";
 export default class TodosController {
   static ping(req, res, next) {
     res.json({ result: "pong" });
@@ -8,6 +8,15 @@ export default class TodosController {
     let todos = [];
     try {
       todos = await TodosDAO.getTodos();
+      // todos.forEach((todo) => {
+      //   if (todo.media) {
+      //     todo.soundBlob = Buffer.from(
+      //       todo.media.split(",")[1],
+      //       "base64"
+      //     ).toString("binary");
+      //     // convertBase64MediaToBlob(todo.media);
+      //   }
+      // });
     } catch (e) {
       console.log(`Error in getting todos: ${e}`);
     }
@@ -18,6 +27,7 @@ export default class TodosController {
     const todo = {
       title: req.body.title,
       description: req.body.description,
+      media: req.body.media,
       createdOn: new Date(),
     };
     let todoResponse = {};
