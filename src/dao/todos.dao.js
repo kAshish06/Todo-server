@@ -28,12 +28,22 @@ export default class TodosDAO {
 
   static async addTodo(todo) {
     try {
-      console.log(todo);
       return await this.todosCollection.insertOne(todo);
     } catch (e) {
       console.log(
         `Error while inserting todo in todos collection. Error: ${e}`
       );
+    }
+  }
+
+  static async updateTodo(id, patchPayload) {
+    try {
+      return await this.todosCollection.updateOne(
+        { _id: ObjectId(id) },
+        { $set: { ...patchPayload } }
+      );
+    } catch (e) {
+      console.log(`Error while patching todo in todos collection. Error: ${e}`);
     }
   }
   static async getTodo(id) {

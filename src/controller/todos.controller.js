@@ -24,11 +24,13 @@ export default class TodosController {
   }
 
   static async apiAddTodo(req, res, next) {
+    const date = new Date();
     const todo = {
       title: req.body.title,
       description: req.body.description,
       media: req.body.media,
-      createdOn: new Date(),
+      createdOn: date,
+      lastUpdatedOn: date,
     };
     let todoResponse = {};
     try {
@@ -39,13 +41,26 @@ export default class TodosController {
 
     res.json({ status: "Success", todo: todoResponse });
   }
+  static async apiUpdateTodo(req, res, next) {
+    let apiResponse = {};
+    const updatePayload = {
+      ...req.body.data,
+      lastUpdatedOn: new Date(),
+    };
+    try {
+      apiResponse = await TodosDAO.updateTodo(req.body.id, updatePayload);
+    } catch (e) {
+      console.log(`Error in patching todo. Error: ${e}`);
+    }
+    return res.json({ status: "Success", todo: apiResponse });
+  }
 
   static async apiGetTodo(req, res, next) {
     let apiResponse = {};
     try {
       apiResponse = await TodosDAO.getTodo(req.query.id);
     } catch (e) {
-      console.log(`Error un deleting todo. Error: ${e}`);
+      console.log(`Error In deleting todo. Error: ${e}`);
     }
     res.json({ status: "success", response: apiResponse });
   }

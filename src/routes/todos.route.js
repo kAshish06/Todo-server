@@ -7,6 +7,7 @@ const router = new Router();
 router.route("/ping").get(TodosController.ping);
 router.route("/").get(TodosController.apiGetTodos);
 router.route("/").post(TodosController.apiAddTodo);
+router.route("/").patch(TodosController.apiUpdateTodo);
 router.route("/:id").get(TodosController.apiGetTodo);
 router.route("/:id").delete(TodosController.apiDeleteTodo);
 
