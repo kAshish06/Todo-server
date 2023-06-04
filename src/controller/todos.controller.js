@@ -72,7 +72,7 @@ export default class TodosController {
       console.log(req.query.id);
       apiResponse = await TodosDAO.deleteTodo(req.params.id);
     } catch (e) {
-      console.log(`Error un deleting todo. Error: ${e}`);
+      console.log(`Error in deleting todo. Error: ${e}`);
     }
     res.json({ status: "success", response: apiResponse });
   }
